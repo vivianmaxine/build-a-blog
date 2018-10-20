@@ -67,5 +67,14 @@ def create_post():
         'newpost.html', title="Add a New Post", title_error=title_error,
         entry_error=entry_error)
 
+
+@app.route('/blogpost')
+def display_single_post():
+    post_id = request.args.get('id')
+
+    post = BlogPost.query.get(post_id)
+
+    return render_template('blogpost.html', title="Blog Post", post=post)
+
 if __name__ == "__main__":
     app.run()
