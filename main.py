@@ -40,5 +40,17 @@ def index():
     return render_template('index.html', title="Vivian's Blog", posts=posts)
 
 
+@app.route('/create-post', methods=['GET', 'POST'])
+def create_post():
+    new_post_title = request.form['new_title']
+    new_post_entry = request.form['new_entry']
+
+    post = BlogPost(title=new_post_title, entry=new_post_entry)
+
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect('/')
+
 if __name__ == "__main__":
     app.run()

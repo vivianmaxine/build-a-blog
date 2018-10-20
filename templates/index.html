@@ -3,23 +3,25 @@
 {% block content %}
 
     <h2>Add New Post</h2>
-    <form methods="POST">
+    <form action='/create-post' method="POST">
         <label>
             Post Title:
-            <input type="text" name="title">
+            <input type="text" name="new_title" size="70">
         </label><br><br>
         <label>
             Entry Content:<br>
-            <textarea name="entry" rows="5" cols="80"></textarea>
+            <textarea name="new_entry" rows="5" cols="80"></textarea>
         </label>
+        <br>
+        <input type="submit" value="Add New Post">
     </form>
 
     {% if posts|length == 0 %}
         <h4>No blog posts yet</h4>
     {% else %}
-        {% for post in posts %}
+        {% for post in posts|reverse %}
             <h2>{{post.title}}</h2>
-            <!--<p>{{post.entry}}-->
+            <p>{{post.entry}}</p>
         {% endfor %}
     {% endif %}
 
