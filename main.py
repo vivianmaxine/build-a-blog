@@ -24,8 +24,8 @@ class BlogPost(db.Model):
         return '<BlogPost %r>' % self.title
 
 
-@app.route('/', methods=['POST', 'GET'])
-def index():
+@app.route('/blog', methods=['POST', 'GET'])
+def blog():
     if request.method == 'POST':
         post_title = request.form['title']
         post_entry = request.form['entry']
@@ -40,17 +40,32 @@ def index():
     return render_template('index.html', title="Vivian's Blog", posts=posts)
 
 
-@app.route('/create-post', methods=['GET', 'POST'])
+@app.route('/newpost', methods=['POST', 'GET'])
 def create_post():
-    new_post_title = request.form['new_title']
-    new_post_entry = request.form['new_entry']
+    title_error = ''
+    entry_error = ''
 
-    post = BlogPost(title=new_post_title, entry=new_post_entry)
+    if request.method == 'POST':
+        new_post_title = request.form['new_title']
+        new_post_entry = request.form['new_entry']
 
-    db.session.add(post)
-    db.session.commit()
+        if new_post_title == '':
+            title_error = 'Please enter a title for your blog post.'
 
-    return redirect('/')
+        if new_post_entry == '':
+            entry_error = 'Please enter content for your blog post.'
+
+        if title_error == '' and entry_error == '':
+            new_post = BlogPost(title=new_post_title, entry=new_post_entry)
+
+            db.session.add(new_post)
+            db.session.commit()
+
+            return redirect('/blog')
+
+    return render_template(
+        'newpost.html', title="Add a New Post", title_error=title_error,
+        entry_error=entry_error)
 
 if __name__ == "__main__":
     app.run()

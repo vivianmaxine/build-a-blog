@@ -1,34 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Vivian's Blog</h1>
+
+    <h1>Add New Post</h1>
     <br>
-    {% if posts|length == 0 %}
-        <h4>No blog posts yet</h4>
-    {% else %}
-        {% for post in posts|reverse %}
-            <h2>{{post.title}}</h2>
-            <p>{{post.entry}}</p>
-            <hr>
-        {% endfor %}
-    {% endif %}
-
-    <br><br>
-
-    <h2>Add New Post</h2>
     <form action='/newpost' method="POST">
         <label>
             Post Title:<br>
             <input type="text" name="new_title" size="80">
-        </label><br><br>
+        </label>
+        <p class="error">{{title_error}}</p><br>
         <label>
             Entry Content:<br>
             <textarea name="new_entry" rows="5" cols="80"></textarea>
         </label>
-        <br><br>
+        <p class="error">{{entry_error}}</p><br>
         <input type="submit" value="Add New Post">
     </form>
-    <br><br>
 
 
 {% endblock %}
